@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+    <h1>{{ object.name }}</h1>
+    {# Display django.contrib.messages as Bootstrap alerts #}
+
+    <div class="well">
+    {{ object.description }}
+    </div>
+{% endblock %}

@@ -10,17 +10,17 @@ from django.core.files.storage import get_storage_class
 
 from django.utils.translation import ugettext_lazy as _
 
-from .settings import (RELATION_MODELS, RELATIONS, THUMBNAIL_UPLOAD_PATH,
-                        THUMBNAIL_STORAGE)
+from . import settings
+
 
 from .base import CategoryBase
 
-STORAGE = get_storage_class(THUMBNAIL_STORAGE)
+STORAGE = get_storage_class(settings.THUMBNAIL_STORAGE)
 
 
 class Category(CategoryBase):
     thumbnail = models.FileField(
-        upload_to=THUMBNAIL_UPLOAD_PATH,
+        upload_to=settings.THUMBNAIL_UPLOAD_PATH,
         null=True, blank=True,
         storage=STORAGE(),)
     thumbnail_width = models.IntegerField(blank=True, null=True)
@@ -65,7 +65,7 @@ class Category(CategoryBase):
         ancestors = list(self.get_ancestors()) + [self, ]
         return prefix + '/'.join([force_unicode(i.slug) for i in ancestors]) + '/'
 
-    if RELATION_MODELS:
+    if settings.RELATION_MODELS:
         def get_related_content_type(self, content_type):
             """
             Get all related items of the specified content type
@@ -103,8 +103,8 @@ class Category(CategoryBase):
         order_insertion_by = ('order', 'name')
 
 
-if RELATIONS:
-    CATEGORY_RELATION_LIMITS = reduce(lambda x, y: x | y, RELATIONS)
+if settings.RELATIONS:
+    CATEGORY_RELATION_LIMITS = reduce(lambda x, y: x | y, settings.RELATIONS)
 else:
     CATEGORY_RELATION_LIMITS = []
 

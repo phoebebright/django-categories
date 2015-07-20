@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+    <h1>Simpletexts</h1>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        </thead>
+
+
+        {% for item in object_list %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+            <td>  <a href="{% url "txt-edit" item.pk %}" class="btn btn-success">Edit</a></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="{% url "txt-add" %}" class="btn btn-success">Add</a>
+{% endblock %}
